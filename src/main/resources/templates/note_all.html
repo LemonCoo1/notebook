@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>所有笔记</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../static/css/layui.css" media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+  <style type="text/css">
+        .toolbar {
+            border-top: 1px solid #ccc;
+			border-bottom:1px solid #ccc;
+			line-height:30px;
+        }
+        .text {
+            border: 0px solid #ccc;
+            height:100%;
+			max-height:410px;
+        }
+    </style>
+</head>
+<body>
+ <div id="big">
+	<div class="head">
+    	<img src="../static/images/cloud.png" width="129" height="42"/>
+        <div class="search d3">
+		<form>
+		  <input type="text" placeholder="搜索笔记...">
+		  <button type="submit"></button>
+		</form>
+		</div>
+    </div>
+	
+    <div class="main">
+    
+    <div class="main-left">
+        <div class="user_box">
+                    <img class="user" src="../static/images/user.png" />
+                    <span class="e_mail">1781469@qq.com<!--获取数据库的用户资料--></span>
+                </div>
+                <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
+            <li class="layui-nav-item"><a href="javascript:void(0)" id="show" onclick="show('popupdiv')">个人资料</a></li>
+            <li class="layui-nav-item"><a href="note_add.html">创建笔记</a></li>
+            <li class="layui-nav-item layui-nav-itemed">
+            <a href="note_all.html">所有笔记</a>
+            <!--<dl class="layui-nav-child">
+              <dd><a href="javascript:;"><img src="images/add.png" />&nbsp;&nbsp;新建分组</a></dd>
+              <dd><a href="javascript:;">计划书</a></dd>
+              <dd><a href="javascript:;">心情日记</a></dd>
+            </dl>-->
+          </li>
+          <li class="layui-nav-item"><a href="note_favor.html">收藏夹</a></li>
+          <li class="layui-nav-item"><a href="../static/note_dele.html">回收站</a></li>
+    	</ul>
+    </div>
+    
+    <div class="main-center">
+    	<div class="file">
+        	<a href="#" class="file_m"></a>
+            <span class="file_all"><a href="#">所有笔记></a></span>
+        </div>
+        <div class="file_li">
+        	<!--获取数据库的笔记-->
+        	<ul>
+            	<li><div class="li_left"><div class="li_left_top"><img src="../static/images/file.png" /><p><b><a href="javascript:;">获取笔记本名称</a></b></p><span class="note_time">2018-01-03&nbsp;&nbsp;&nbsp;&nbsp;8项</span></div></div></li>
+                <li><div class="li_left"><div class="li_left_top"><img src="../static/images/note.png" /><p><b><a href="javascript:;">获取笔记名称</a></b></p><span class="note_time">2018-01-03&nbsp;16:58</span></div></div></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-right">
+    	<div class="headline">
+        	<input type="text"  class="layui-input" autofocus="autofocus" placeholder="标题">
+            <div class="save">
+            	<a href="#" class="save_s">保存</a>
+                <a href="#" class="save_m"></a>
+            </div>
+        </div>
+    	<div id="div1" class="toolbar">
+    </div>
+    <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度<img src="images/more.png"/>-->
+    </div>
+
+    <script type="text/javascript" src="../static/js/wangEditor.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor1 = new E('#div1', '#div2')  // 两个参数也可以传入 elem 对象，class 选择器
+        editor1.create()
+    </script>
+    
+    </div>
+      
+        
+        
+    </div>
+
+<div id="popupdiv"
+style="display:none;">
+
+<span><a href="javascript:void(0)" onclick="closeDiv('popupdiv')"><img src="../static/images/close.png" /></a></span>
+<table width="100%" border="0">
+  <tr>
+    <td width="22%" height="45px" align="right" class="left_element">头像</td>
+    <td width="5%">&nbsp;</td>
+    <td width="73%"><img src="../static/images/user.png" class="edi_user"/></td>
+  </tr>
+  <tr>
+    <td align="right" height="45px" class="left_element">昵称</td>
+    <td>&nbsp;</td>
+    <td><input name="" type="text" style="height:25px" class="right_element"></td>
+  </tr>
+  <tr>
+    <td align="right" height="45px" class="left_element">邮箱</td>
+    <td>&nbsp;</td>
+    <td><input name="" type="text" style="height:25px" class="right_element"></td>
+  </tr>
+  <tr>
+    <td align="right" height="45px" class="left_element">手机号码</td>
+    <td>&nbsp;</td>
+    <td><input name="" type="text" style="height:25px" class="right_element"></td>
+  </tr>
+  <tr>
+    <td align="right" height="55" class="left_element">注册时间</td>
+    <td>&nbsp;</td>
+    <td class="right_element">获取用户注册时间</td>
+  </tr>
+  <tr>
+    <td align="right" valign="top" class="left_element">个性签名</td>
+    <td>&nbsp;</td>
+    <td><textarea cols="35" rows="5" class="right_element"></textarea></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td height="50px">
+    	<input name="" type="button" value="保存" class="edi_save">
+        <input name="" type="button" value="取消" onclick="closeDiv('popupdiv')" class="edi_cancel">
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+ 
+
+
+ 
+      
+          
+<script src="../static/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+layui.use('element', function(){
+  var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+  
+  //监听导航点击
+  element.on('nav(demo)', function(elem){
+    //console.log(elem)
+    layer.msg(elem.text());
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>用户登陆</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/static/css/layui.css" media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+  <style type="text/css">
+        .toolbar {
+            border-top: 1px solid #ccc;
+			border-bottom:1px solid #ccc;
+			line-height:30px;
+        }
+        .text {
+            border: 0px solid #ccc;
+            height:100%;
+			max-height:410px;
+        }
+		
+#banner_move{ width:100%; height:600px;}
+#banner_right{ width:40%; float:right; margin-right:50px; margin-top:80px; padding-right:50px; opacity: 0; animation:bpmove 1s ease 0.2s forwards;}
+#bann{ display:block; float:left; animation:move 1s ease 0s forwards;}
+
+@keyframes move {0%{transform: translate(0px,0px); opacity: 0;}
+100%{transform: translate(50px,0px); opacity: 1;}}
+
+
+@keyframes bpmove {0%{transform: translate(0px,0px); opacity: 0;}
+100%{transform: translate(0px,50px); opacity: 1;}}
+    </style>
+</head>
+<body>
+ <div id="big">
+	<div class="head">
+    	<img src="/static/images/cloud.png" width="129" height="42"/>
+        <div class="about">
+            <a href="javascript:linkLogin();">登陆</a>
+			<a href="javascript:;">关于我们</a>
+		</div>
+    </div>
+	
+    <div class="main">
+    
+    <div id="banner_move">
+	<img src="../static/images/banner.png" id="bann" class="banne" />
+    <div id="banner_right"><p style="font-size:36px; color:#248aff; line-height:60px;">文档管理&nbsp;&nbsp;高效记录</p><p style="color:#616161; font-size:16px; line-height:25px; letter-spacing:4px;">随时随地记录你的灵感！</p><p style="color:#616161; font-size:16px; line-height:25px; letter-spacing:4px;">无论是点滴灵感、工作计划、或是会议记录、项目资料，登陆云笔记，随时记录，永久保存！</p>
+    <a href="note_add.html" style="display:block; width:120px; height:40px; float:left; background-color:#89c9e5; text-align:center; color:#FFF; line-height:40px; font-size:18px; margin-top:25px;">立即进入</a>
+    </div>
+    
+</div>
+    
+    <div class="tab1" id="tab1" style="display:none;">
+        <div class="menuu">
+            <ul>
+                <li id="one1" onclick="setTab('one',1)">登陆</li>
+                <li id="one2" onclick="setTab('one',2)">注册</li>
+            </ul>
+        </div>
+    
+        <div class="menudiv">
+            <div id="con_one_1">
+            <form action="/login" method="post">
+              <div id="inpu">
+                <ul class="venus-menu">
+                <li class="search">
+				<input type="text" name="username" id="loginusername" class="Search" placeholder="用户名" />
+				</li>
+                <li class="search">
+
+				<input type="password" name="password" id="loginpassword" class="Search" placeholder="密码" />
+				</li>
+                </ul>
+              </div>
+        		<div id="anniu">
+            		<ul>
+            		<li><button type="submit" >登陆</button></li>
+            		<li><button href="javascript:closeLogin();">取消</button></li>
+           			</ul>
+        		</div>
+            </form>
+    		</div>
+            
+            <div id="con_one_2" style="display:none;">
+                <div id="inpu" name="reg">
+                    <ul class="venus-menu">
+                    <li class="search">
+                    <form method="post">
+                    <input type="text" name="username" id="username" class="search" placeholder="用户名" /></form>
+                    </li>
+                    <li class="search">
+                    <form method="get">
+                    <input type="text" name="email" id="email" class="search" placeholder="邮箱" /></form>
+                    </li>
+                    <li class="search">
+                    <form method="get">
+                    <input type="password" name="password" id="password" class="search" placeholder="密码" /></form>
+                    </li>
+                    <li class="search">
+                    <form method="get">
+                    <input type="password" name="" class="search" placeholder="确认密码" />
+                    </form>
+                    </li>
+                    </ul>
+                </div>
+                <div id="anniu">
+                    <ul>
+                    <li>
+                    <button id="reg">注册</button>
+                    </li>
+                    <li><button >取消</button></li>
+                    </ul>
+                </div>
+            </div>
+            
+   		</div>
+  </div>
+        
+ </div> 
+    
+    
+      
+        
+        
+
+</div>
+
+
+
+
+	
+<!--登录框-->
+    
+         
+<script src="/static/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+layui.use(['jquery', 'layer','element'], function(){
+  var $ = layui.$
+  var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+  
+  //监听导航点击
+  element.on('nav(demo)', function(elem){
+    //console.log(elem)
+    layer.msg(elem.text());
+  });
+
+  $('#reg').on('click',function () {
+      console.log(1);
+      var username = $("#username").val();
+      var email = $("#email").val();
+      var password = $("#password").val();
+      console.log("1");
+      $.ajax({
+          url: "/reg",
+          type: 'POST',
+          data: 'username='+username+'&email='+email+'&password='+password,
+          success: function(result){
+              console.log(result);
+          }
+      })
+  })
+});
+
+
+
+function Lock_CheckForm(theForm){
+document.all.ly.style.display='none';document.all.Layer2.style.display='none';
+return false;
+}
+</script>
+
+</body>
+</html>
