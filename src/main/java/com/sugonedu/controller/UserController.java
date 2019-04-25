@@ -27,9 +27,6 @@ public class UserController {
     NoteService noteService;
 
     /**
-     * 我有一个问题，我的static都是静态html，我想访问，但是不知道通过那种方式
-     */
-    /**
      * 首页跳转
      * @return
      */
@@ -50,9 +47,15 @@ public class UserController {
         sysUser.setUsername(username);
         sysUser.setPassword(password);
         try {
-            userService.login(sysUser);
+            sysUser = userService.login(sysUser);
         } catch (SQLException e) {
             response.html("<alert>登录失败</alert>");
+            response.redirect("/");
+            return;
+        }
+        if(null == sysUser.getId()){
+            response.redirect("/");
+            return;
         }
         Session session = request.session();
         session.attribute("user",sysUser);
@@ -88,10 +91,12 @@ public class UserController {
 
     @Route("/noteSave")
     @JSON
-    public Map<String,Object> noteSave(@Param String title,@Param String content){
+    public Map<String,Object> noteSave(@Param() String id,@Param String title,@Param String content){
 
         Note note = new Note();
-        note.setId(UUID.randomUUID().toString());
+        if(!(null == id || "".equals(id))){
+            note.setId(UUID.randomUUID().toString());
+        }
         note.setTitle(title);
         note.setContent(content);
         int i = 0;

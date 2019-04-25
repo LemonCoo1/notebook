@@ -38,7 +38,7 @@
     <div class="main-left">
         <div class="user_box">
                     <img class="user" src="../static/images/user.png" />
-                    <span class="e_mail">1781469@qq.com<!--获取数据库的用户资料--></span>
+                    <span class="e_mail">${user.email}<!--获取数据库的用户资料--></span>
                 </div>
                 <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
             <li class="layui-nav-item"><a href="javascript:void(0)" id="show" onclick="show('popupdiv')">个人资料</a></li>
@@ -108,12 +108,13 @@ style="display:none;">
   <tr>
     <td align="right" height="45px" class="left_element">昵称</td>
     <td>&nbsp;</td>
-    <td><input name="" type="text" style="height:25px" class="right_element"></td>
+
+    <td><input name="" type="text" style="height:25px" class="right_element" value=${user.nickname}></td>
   </tr>
   <tr>
     <td align="right" height="45px" class="left_element">邮箱</td>
     <td>&nbsp;</td>
-    <td><input name="" type="text" style="height:25px" class="right_element"></td>
+    <td><input name="" type="text" style="height:25px" class="right_element" value="${user.email}"></td>
   </tr>
   <tr>
     <td align="right" height="45px" class="left_element">手机号码</td>

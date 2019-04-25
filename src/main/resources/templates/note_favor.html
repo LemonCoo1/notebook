@@ -38,7 +38,7 @@
     <div class="main-left">
         <div class="user_box">
                     <img class="user" src="../static/images/user.png" />
-                    <span class="e_mail">1781469@qq.com<!--获取数据库的用户资料--></span>
+                    <span class="e_mail">${user.email}<!--获取数据库的用户资料--></span>
                 </div>
                 <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
             <li class="layui-nav-item"><a href="javascript:void(0)" id="show" onclick="show('popupdiv')">个人资料</a></li>
@@ -90,6 +90,7 @@
     	<div class="headline">
         	<input type="text"  id="title" class="layui-input" autofocus="autofocus" placeholder="标题">
             <div class="save">
+                <input id="noteId" hidden/>
             	<a href="#" id="save_s" class="save_s">保存</a>
                 <a href="javascript:;" onmouseover="f_s('div01')" onmouseout="closeW('div01')"  class="save_m"></a>
             </div>
@@ -168,25 +169,10 @@ style="display:none;">
 </table>
 
 
-
-
-
 </div>
 
 </div>
 
-
-
-
-
-
-
- 
-
-
- 
-      
-          
 <script src="../static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
@@ -206,10 +192,11 @@ layui.use(['element','jquery'], function(){
     $('#save_s').on('click',function () {
         console.log(1);
         var title = $('#title').val();
+        var noteId = $("#noteId").val();
         $.ajax({
             url: "/noteSave",
             type: 'POST',
-            data: 'title='+title+'&content='+editor1.txt.html(),
+            data: 'id='+noteId+'title='+title+'&content='+editor1.txt.html(),
             success: function(result){
                 if (result.success) {
                     alert("保存成功");
@@ -229,6 +216,7 @@ layui.use(['element','jquery'], function(){
 
             $.get("/note/id?id="+id, function(result){
                 $('#title').val(result.title);
+                $("#noteId").val(result.id);
                 editor1.txt.html(result.content)
             });
         })

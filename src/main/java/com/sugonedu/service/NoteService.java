@@ -21,9 +21,14 @@ public class NoteService {
     public int saveNote(Note note) throws SQLException {
         Connection conn = DB.getConnection();
         Statement stmt = conn.createStatement();
-
-        String sql = " INSERT INTO note(id,title,content) VALUES('%s','%s','%s')";
-        sql = String.format(sql,note.getId(),note.getTitle(),note.getContent());
+        String sql;
+        if(null != note.getId()){
+            sql= " UPDATE note SET title='%s',content='%s' WHERE id = '%s'";
+            sql = String.format(sql,note.getId(),note.getTitle(),note.getContent());
+        }else {
+            sql = " INSERT INTO note(id,title,content) VALUES('%s','%s','%s')";
+            sql = String.format(sql,note.getId(),note.getTitle(),note.getContent());
+        }
         int i = stmt.executeUpdate(sql);
         return i;
     }

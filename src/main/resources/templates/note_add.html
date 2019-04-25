@@ -40,7 +40,7 @@
     <div class="main-left">
         <div class="user_box">
                     <img class="user" src="../static/images/user.png" />
-                    <span class="e_mail">1781469@qq.com</span>
+                    <span class="e_mail">${user.email}</span>
                 </div>
                 <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
             <li class="layui-nav-item"><a href="javascript:void(0)" id="show" onclick="show('popupdiv')">个人资料</a></li>
@@ -62,7 +62,7 @@
         <div class="file_li">
         	<!--获取数据库近3天的笔记-->
         	<ul>
-                <li><div class="li_left"><div class="li_left_top"><img src="../static/images/note.png" /><p><b><a href="javascript:;">未命名笔记</a></b></p><span class="note_time">2018-01-03&nbsp;16:58</span></div></div></li>
+                <li><div class="li_left"><div class="li_left_top"><img src="../static/images/note.png" /><p><b><a href="javascript:;">未命名笔记</a></b></p><span class="note_time"></span></div></div></li>
             </ul>
         </div>
     </div>
@@ -79,7 +79,9 @@
     <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度<img src="images/more.png"/>-->
     </div>
 
-    <script type="text/javascript" src="/static/js/wangEditor.min.js"></script>
+    <script type="text/javascript" src="/static/js/wangEditor.min.js">
+
+    </script>
     <script type="text/javascript">
 
     </script>
@@ -112,7 +114,7 @@ style="display:none;">
   <tr>
     <td align="right" height="45px" class="left_element">邮箱</td>
     <td>&nbsp;</td>
-    <td><input name="" type="text" style="height:25px" class="right_element"></td>
+    <td><input name="" type="text" style="height:25px" class="right_element" value="${user.email}"></td>
   </tr>
   <tr>
     <td align="right" height="45px" class="left_element">手机号码</td>
@@ -167,9 +169,7 @@ layui.use(['element','jquery'], function(){
     var editor1 = new E('#div1', '#div2')  // 两个参数也可以传入 elem 对象，class 选择器
     editor1.create()
 
-
     $('#save_s').on('click',function () {
-        console.log(1);
         var title = $('#title').val();
         $.ajax({
             url: "/noteSave",
