@@ -1,7 +1,7 @@
 package com.sugonedu.model;
 
 /**
- * @author xucong
+ * @author
  * @date 2019/4/23
  */
 public class Note {
@@ -13,6 +13,10 @@ public class Note {
 
     private Integer favor;
 
+    private String groupId;
+
+    private String userId;
+
     public Note() {
     }
 
@@ -21,6 +25,22 @@ public class Note {
         this.title = title;
         this.content = content;
         this.favor = favor;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getId() {
@@ -53,5 +73,14 @@ public class Note {
 
     public void setFavor(Integer favor) {
         this.favor = favor;
+    }
+
+    public Note(String id, String title, String content, Integer favor, String groupId, String userId) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.favor = favor;
+        this.groupId = groupId;
+        this.userId = userId;
     }
 }

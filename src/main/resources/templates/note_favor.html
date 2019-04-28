@@ -1,228 +1,257 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>收藏夹</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="../static/css/layui.css" media="all">
-  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
-  <style type="text/css">
+    <meta charset="utf-8">
+    <title>收藏夹</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../static/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <style type="text/css">
         .toolbar {
             border-top: 1px solid #ccc;
-			border-bottom:1px solid #ccc;
-			line-height:30px;
+            border-bottom: 1px solid #ccc;
+            line-height: 30px;
         }
+
         .text {
             border: 0px solid #ccc;
-            height:100%;
-			max-height:410px;
+            height: 100%;
+            max-height: 410px;
         }
     </style>
 </head>
 <body>
- <div id="big">
-	<div class="head">
-    	<img src="/static/images/cloud.png" width="129" height="42"/>
+<div id="big">
+    <div class="head">
+        <img src="/static/images/cloud.png" width="129" height="42"/>
         <div class="search d3">
-		<form>
-		  <input type="text" placeholder="搜索笔记...">
-		  <button type="submit"></button>
-		</form>
-		</div>
+            <form>
+                <input type="text" placeholder="搜索笔记...">
+                <button type="submit"></button>
+            </form>
+        </div>
     </div>
-	
+
     <div class="main">
-    
-    <div class="main-left">
-        <div class="user_box">
-                    <img class="user" src="../static/images/user.png" />
-                    <span class="e_mail">${user.email}<!--获取数据库的用户资料--></span>
-                </div>
-                <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
-            <li class="layui-nav-item"><a href="javascript:void(0)" id="show" onclick="show('popupdiv')">个人资料</a></li>
-            <li class="layui-nav-item"><a href="/noteAdd">创建笔记</a></li>
-            <li class="layui-nav-item">
-            <a href="/noteAll">所有笔记</a>
-            <!--<dl class="layui-nav-child">
-              <dd><a href="javascript:;"><img src="images/add.png" />&nbsp;&nbsp;新建分组</a></dd>
-              <dd><a href="javascript:;">计划书</a></dd>
-              <dd><a href="javascript:;">心情日记</a></dd>
-            </dl>-->
-          </li>
-          <!--<li class="layui-nav-item layui-nav-itemed"><a href="note_favor.html">收藏夹</a></li>-->
-          <!--<li class="layui-nav-item"><a href="../static/note_dele.html">回收站</a></li>-->
-    	</ul>
-    </div>
-    
-    <div class="main-center">
-    	<div class="file">
-        	<a href="#" class="file_m"></a>
-            <span class="file_all"><a href="#">所有笔记></a></span>
-        </div>
-        <div class="file_li">
-        <!--获取数据库的笔记-->
-        	<ul class="notes">
-                #for(item : notes)
-                <li data-id="${item.id}">
-                    <a href="#">
-                    <div class="li_left">
-                        <div class="li_left_top">
-                            <img src="/static/images/note.png" />
-                            <p><b>${item.title}</b></p>
-                            <span class="note_time">2018-01-03&nbsp;16:58</span>
-                        </div>
-                    </div>
-                        #if (item.favor == 0)
-                            <a href="/noteFavor?id=${item.id}">收藏</a>
-                        #else
-                            <a href="/noteFavor?id=${item.id}">取消收藏</a>
-                        #end
 
-                        <a href="/noteDelete?id=${item.id}">删除</a>
-                </li>
-                #end
-            </ul>
-        </div>
-    </div>
-    <div class="main-right">
-    	<div class="headline">
-        	<input type="text"  id="title" class="layui-input" autofocus="autofocus" placeholder="标题">
-            <div class="save">
-                <input id="noteId" hidden/>
-            	<a href="#" id="save_s" class="save_s">保存</a>
-                <a href="javascript:;" onmouseover="f_s('div01')" onmouseout="closeW('div01')"  class="save_m"></a>
+        <div class="main-left">
+            <div class="user_box">
+                <img class="user" src="../static/images/user.png"/>
+                <span class="e_mail">${user.email}<!--获取数据库的用户资料--></span>
             </div>
-            
-            
-        
-        <!--<div id="div01" onmouseover="showDiv()" onmouseout="closeW('div01')">
-            <ul>
-            	<li class="more_li"><a>详细信息</a></li>
-                <li class="more_li"><a>取消收藏</a></li>
-                <li class="more_li"><a>设为私密</a></li>
-                <li class="more_li"><a>删除</a></li>
+            <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
+                <li class="layui-nav-item"><a href="javascript:void(0)" id="show" onclick="show('popupdiv')">个人资料</a>
+                </li>
+                <li class="layui-nav-item"><a href="/noteAdd">创建笔记</a></li>
+                <li class="layui-nav-item">
+                    <a href="/noteAll">所有笔记</a>
+                    <!--<dl class="layui-nav-child">
+                      <dd><a href="javascript:;"><img src="images/add.png" />&nbsp;&nbsp;新建分组</a></dd>
+                      <dd><a href="javascript:;">计划书</a></dd>
+                      <dd><a href="javascript:;">心情日记</a></dd>
+                    </dl>-->
+                </li>
+                <!--<li class="layui-nav-item layui-nav-itemed"><a href="note_favor.html">收藏夹</a></li>-->
+                <!--<li class="layui-nav-item"><a href="../static/note_dele.html">回收站</a></li>-->
             </ul>
-		</div>-->
-            
         </div>
-    	<div id="div1" class="toolbar">
+
+        <div class="main-center">
+            <select id="noteGroup" style="width: 100px">
+                #for (group:noteGroup)
+                #if(group.selected)
+                <option value="${group.id}" selected>${group.name}</option>
+                #else
+                <option value="${group.id}">${group.name}</option>
+                #end
+                #end
+            </select>
+            <!--        <input type="text" id="groupName"  style="height: 30px" class="layui-input" autofocus="autofocus" placeholder="笔记本名称">-->
+            <!--        <button id="addGroup" style="width: 100px;height: 30px" onclick="addGroup()">添加笔记本</button>
+                    <button id="deleteGroup" style="width: 100px;height: 30px" onclick="deleteGroup()">删除笔记本</button>-->
+            <div class="file">
+                <a href="#" class="file_m"></a>
+                            <span class="file_all"><a href="#">所有笔记></a></span>
+            </div>
+            <div class="file_li">
+                <!--获取数据库的笔记-->
+                <ul class="notes" >
+                    #for(item : notes)
+                    <li data-id="${item.id}">
+                        <a href="#">
+                            <div class="li_left">
+                                <div class="li_left_top">
+                                    <img src="/static/images/note.png"/>
+                                    <p><b>${item.title}</b></p>
+                                    <span class="note_time">2018-01-03&nbsp;16:58</span>
+                                </div>
+                            </div>
+                            #if (item.favor == 0)
+                            <a href="/noteFavor?id=${item.id}">收藏</a>
+                            #else
+                            <a href="/noteFavor?id=${item.id}">取消收藏</a>
+                            #end
+                            <a href="/noteDelete?id=${item.id}">删除</a>
+
+                        </a>
+                    </li>
+                    #end
+                </ul>
+            </div>
+        </div>
+        <div class="main-right">
+            <div class="headline">
+                <input type="text" id="title" class="layui-input" autofocus="autofocus" placeholder="标题">
+                <div class="save">
+                    <input id="noteId" hidden/>
+                    <a href="#" id="save_s" class="save_s">保存</a>
+                    <a href="javascript:;" onmouseover="f_s('div01')" onmouseout="closeW('div01')" class="save_m"></a>
+                </div>
+
+
+                <!--<div id="div01" onmouseover="showDiv()" onmouseout="closeW('div01')">
+                    <ul>
+                        <li class="more_li"><a>详细信息</a></li>
+                        <li class="more_li"><a>取消收藏</a></li>
+                        <li class="more_li"><a>设为私密</a></li>
+                        <li class="more_li"><a>删除</a></li>
+                    </ul>
+                </div>-->
+
+            </div>
+            <div id="div1" class="toolbar">
+            </div>
+            <div id="div2" class="text">
+                <!--可使用 min-height 实现编辑区域自动增加高度<img src="images/more.png"/><a href="javascript:;"></a>-->
+            </div>
+
+            <script type="text/javascript" src="../static/js/wangEditor.min.js"></script>
+            <script type="text/javascript">
+
+            </script>
+
+        </div>
+
+
     </div>
-    <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度<img src="images/more.png"/><a href="javascript:;"></a>-->
+
+    <div id="popupdiv"
+         style="display:none;">
+
+        <span><a href="javascript:void(0)" onclick="closeDiv('popupdiv')"><img
+                src="../static/images/close.png"/></a></span>
+        <table width="100%" border="0">
+            <tr>
+                <td width="22%" height="45px" align="right" class="left_element">头像</td>
+                <td width="5%">&nbsp;</td>
+                <td width="73%"><img src="../static/images/user.png" class="edi_user"/></td>
+            </tr>
+            <tr>
+                <td align="right" height="45px" class="left_element">昵称</td>
+                <td>&nbsp;</td>
+                <td><input name="" type="text" style="height:25px" class="right_element"></td>
+            </tr>
+            <tr>
+                <td align="right" height="45px" class="left_element">邮箱</td>
+                <td>&nbsp;</td>
+                <td><input name="" type="text" style="height:25px" class="right_element"></td>
+            </tr>
+            <tr>
+                <td align="right" height="45px" class="left_element">手机号码</td>
+                <td>&nbsp;</td>
+                <td><input name="" type="text" style="height:25px" class="right_element"></td>
+            </tr>
+            <tr>
+                <td align="right" height="55" class="left_element">注册时间</td>
+                <td>&nbsp;</td>
+                <td class="right_element">获取用户注册时间</td>
+            </tr>
+            <tr>
+                <td align="right" valign="top" class="left_element">个性签名</td>
+                <td>&nbsp;</td>
+                <td><textarea cols="35" rows="5" class="right_element"></textarea></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td height="50px">
+                    <input name="" type="button" value="保存" class="edi_save">
+                    <input name="" type="button" value="取消" onclick="closeDiv('popupdiv')" class="edi_cancel">
+                </td>
+            </tr>
+        </table>
+
+
     </div>
-
-    <script type="text/javascript" src="../static/js/wangEditor.min.js"></script>
-    <script type="text/javascript">
-
-    </script>
-    
-    </div>
-      
-        
-        
-    </div>
-
-<div id="popupdiv"
-style="display:none;">
-
-<span><a href="javascript:void(0)" onclick="closeDiv('popupdiv')"><img src="../static/images/close.png" /></a></span>
-<table width="100%" border="0">
-  <tr>
-    <td width="22%" height="45px" align="right" class="left_element">头像</td>
-    <td width="5%">&nbsp;</td>
-    <td width="73%"><img src="../static/images/user.png" class="edi_user"/></td>
-  </tr>
-  <tr>
-    <td align="right" height="45px" class="left_element">昵称</td>
-    <td>&nbsp;</td>
-    <td><input name="" type="text" style="height:25px" class="right_element"></td>
-  </tr>
-  <tr>
-    <td align="right" height="45px" class="left_element">邮箱</td>
-    <td>&nbsp;</td>
-    <td><input name="" type="text" style="height:25px" class="right_element"></td>
-  </tr>
-  <tr>
-    <td align="right" height="45px" class="left_element">手机号码</td>
-    <td>&nbsp;</td>
-    <td><input name="" type="text" style="height:25px" class="right_element"></td>
-  </tr>
-  <tr>
-    <td align="right" height="55" class="left_element">注册时间</td>
-    <td>&nbsp;</td>
-    <td class="right_element">获取用户注册时间</td>
-  </tr>
-  <tr>
-    <td align="right" valign="top" class="left_element">个性签名</td>
-    <td>&nbsp;</td>
-    <td><textarea cols="35" rows="5" class="right_element"></textarea></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td height="50px">
-    	<input name="" type="button" value="保存" class="edi_save">
-        <input name="" type="button" value="取消" onclick="closeDiv('popupdiv')" class="edi_cancel">
-    </td>
-  </tr>
-</table>
-
 
 </div>
-
-</div>
-
+<script src="/static/js/jquery-1.10.2.min.js"></script>
 <script src="../static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-layui.use(['element','jquery'], function(){
-    var $ = layui.$
-    var E = window.wangEditor
-    var editor1 = new E('#div1', '#div2')  // 两个参数也可以传入 elem 对象，class 选择器
-    editor1.create()
-  var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-  
-  //监听导航点击
-  element.on('nav(demo)', function(elem){
-    //console.log(elem)
-    layer.msg(elem.text());
-  });
+    layui.use(['element', 'jquery'], function () {
+        var $ = layui.$
+        var E = window.wangEditor
+        var editor1 = new E('#div1', '#div2')  // 两个参数也可以传入 elem 对象，class 选择器
+        editor1.create()
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
 
-    $('#save_s').on('click',function () {
-        console.log(1);
-        var title = $('#title').val();
-        var noteId = $("#noteId").val();
-        $.ajax({
-            url: "/noteSave",
-            type: 'POST',
-            data: 'id='+noteId+'title='+title+'&content='+editor1.txt.html(),
-            success: function(result){
-                if (result.success) {
-                    alert("保存成功");
-                    window.location.reload()
+        //监听导航点击
+        element.on('nav(demo)', function (elem) {
+            //console.log(elem)
+            layer.msg(elem.text());
+        });
+
+        $('#save_s').on('click', function () {
+            console.log(1);
+            var title = $('#title').val();
+            var noteId = $("#noteId").val();
+            $.ajax({
+                url: "/noteSave",
+                type: 'POST',
+                data: 'id=' + noteId + '&groupId=' + $("#groupName").val() + '&title=' + title + '&content=' + editor1.txt.html(),
+                success: function (result) {
+                    if (result.success) {
+                        alert("保存成功");
+                        window.location.reload()
+                    }
                 }
-            }
-        })
-    })
-
-    $(function(){
-
-        $('.notes li').click(function(){
-            $('.notes li').removeClass('active');
-            $(this).addClass('active');
-            var id = $(this).data("id");
-
-
-            $.get("/note/id?id="+id, function(result){
-                $('#title').val(result.title);
-                $("#noteId").val(result.id);
-                editor1.txt.html(result.content)
-            });
+            })
         })
 
-    })
-});
+        $(function () {
+
+            $('.notes li').click(function () {
+                $('.notes li').removeClass('active');
+                $(this).addClass('active');
+                var id = $(this).data("id");
+
+
+                $.get("/note/id?id=" + id, function (result) {
+                    $('#title').val(result.title);
+                    $("#noteId").val(result.id);
+                    editor1.txt.html(result.content)
+                });
+            })
+
+        })
+    });
+
+    $(function () {
+        $("#noteGroup").change(function () {
+            $.ajax({
+                url: "/noteAll",
+                type: 'POST',
+                data: 'groupId=' + $("#noteGroup").val(),
+                success: function (result) {
+
+                }
+            })
+        });
+    });
+
 </script>
 
 </body>

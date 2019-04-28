@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>创建笔记</title>
+  <title>创建笔记本本</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -22,10 +22,6 @@
 			max-height:410px;
         }
     </style>
-    <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js">
-
-
-    </script>
 </head>
 <body>
  <div id="big">
@@ -33,12 +29,12 @@
     	<img src="/static/images/cloud.png" width="129" height="42"/>
         <div class="search d3">
 		<form>
-		  <input type="text" placeholder="搜索笔记...">
+		  <input type="text" placeholder="搜索笔记本...">
 		  <button type="submit"></button>
 		</form>
 		</div>
     </div>
-	
+
     <div class="main">
     
     <div class="main-left">
@@ -48,9 +44,9 @@
                 </div>
                 <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="demo">
             <li class="layui-nav-item"><a href="javascript:void(0)" id="show" onclick="show('popupdiv')">个人资料</a></li>
-            <li class="layui-nav-item layui-nav-itemed"><a href="/noteAdd">创建笔记</a></li>
+            <li class="layui-nav-item layui-nav-itemed"><a href="/noteAdd">创建笔记本</a></li>
             <li class="layui-nav-item">
-            <a href="/noteAll">所有笔记</a>
+            <a href="/noteAll">所有笔记本</a>
 
           </li>
           <!--<li class="layui-nav-item"><a href="note_favor.html">收藏夹</a></li>-->
@@ -59,22 +55,20 @@
     </div>
     
     <div class="main-center">
-        <select id="noteGroup" style="width: 100px">
-            #for (group:noteGroup)
-            <option value="${group.id}">${group.name}</option>
-            #end
-        </select>
-        <input type="text" id="groupName"  style="height: 30px" class="layui-input" autofocus="autofocus" placeholder="笔记本名称">
-        <button id="addGroup" style="width: 100px;height: 30px" >添加笔记本</button>
-        <button id="deleteGroup" style="width: 100px;height: 30px" >删除笔记本</button>
     	<div class="file">
         	<!--<a href="#" class="file_m"><i class="fa fa-link"></i></i></i></a>-->
-<!--            <span class="file_all"><a href="#">近期笔记></a></span>-->
+            <select id="noteGroup" style="width: 100px">
+                #for (group:noteGroup)
+                 <option value="${group.id}">${group.name}</option>
+                #end
+            </select>
+            <input type="text" id="groupName"  style="height: 30px" class="layui-input" autofocus="autofocus" placeholder="笔记本名称">
+            <button id="addGroup" style="width: 100px;height: 30px" onclick="addGroup()">添加笔记本</button>
         </div>
         <div class="file_li">
-        	<!--获取数据库近3天的笔记-->
+        	<!--获取数据库近3天的笔记本-->
         	<ul>
-                <li><div class="li_left"><div class="li_left_top"><img src="../static/images/note.png" /><p><b><a href="javascript:;">未命名笔记</a></b></p><span class="note_time"></span></div></div></li>
+                <li><div class="li_left"><div class="li_left_top"><img src="../static/images/note.png" /><p><b><a href="javascript:;">未命名笔记本</a></b></p><span class="note_time"></span></div></div></li>
             </ul>
         </div>
     </div>
@@ -82,7 +76,6 @@
     	<div class="headline">
         	<input type="text" id="title"  class="layui-input" autofocus="autofocus" placeholder="标题">
             <div class="save">
-                <input id="noteId" type="text" hidden>
             	<a href="#" id="save_s" class="save_s">保存</a>
                 <!--<a href="#" class="save_m"></a>-->
             </div>
@@ -92,32 +85,11 @@
     <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度<img src="images/more.png"/>-->
     </div>
 
-    <script type="text/javascript" src="/static/js/wangEditor.min.js"></script>
+    <script type="text/javascript" src="/static/js/wangEditor.min.js">
+
+    </script>
     <script type="text/javascript">
-        $(function () {
-            $("#addGroup").click(function () {
-                $.ajax({
-                    url: "/addGroup",
-                    type: 'POST',
-                    data: 'name=' + $("#groupName").val(),
-                    success: function (result) {
-                            window.location = "/noteAdd";
-                    }
-                })
-            });
-        });
-        $(function () {
-            $("#deleteGroup").click(function () {
-                $.ajax({
-                    url: "/deleteGroup",
-                    type: 'POST',
-                    data: 'groupId='+$("#noteGroup").val(),
-                    success: function(result){
-                            window.location = "/noteAdd";
-                    }
-                })
-            });
-        });
+
     </script>
     
     </div>
@@ -185,14 +157,9 @@ style="display:none;">
 
 
 
-
-	
-
- 
-
-
-
-<script src="/static/layui.js" charset="utf-8"></script>
+      
+<script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
+<script src="/static/layui.all.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
 layui.use(['element','jquery'], function(){
@@ -206,7 +173,7 @@ layui.use(['element','jquery'], function(){
         $.ajax({
             url: "/noteSave",
             type: 'POST',
-            data: 'id='+$("#noteId").val()+'&groupId='+$("#noteGroup").val()+'&title='+title+'&content='+editor1.txt.html(),
+            data: 'title='+title+'&content='+editor1.txt.html(),
             success: function(result){
                 if (result.success) {
                     alert("保存成功");
@@ -215,6 +182,8 @@ layui.use(['element','jquery'], function(){
             }
         })
     })
+
+
 
 });
 

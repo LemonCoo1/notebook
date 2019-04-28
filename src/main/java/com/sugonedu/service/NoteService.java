@@ -10,9 +10,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
- * @author xucong
+ * @author
  * @date 2019/4/23
  */
 @Bean
@@ -22,12 +23,15 @@ public class NoteService {
         Connection conn = DB.getConnection();
         Statement stmt = conn.createStatement();
         String sql;
-        if(null != note.getId()){
-            sql= " UPDATE note SET title='%s',content='%s' WHERE id = '%s'";
-            sql = String.format(sql,note.getId(),note.getTitle(),note.getContent());
-        }else {
-            sql = " INSERT INTO note(id,title,content) VALUES('%s','%s','%s')";
-            sql = String.format(sql,note.getId(),note.getTitle(),note.getContent());
+        // add
+        if(null == note.getId() || "".equals(note.getId()) ){
+            note.setId(UUID.randomUUID().toString());
+            sql = " INSERT INTO note(id,title,content,group_id,user_id) VALUES('%s','%s','%s','%s','%s')";
+            sql = String.format(sql,note.getId(),note.getTitle(),note.getContent(),note.getGroupId(),note.getUserId());
+        }else{
+            //update
+            sql= " UPDATE note SET title='%s',content='%s' WHERE user = '%s'";
+            sql = String.format(sql,note.getTitle(),note.getContent(),note.getId());
         }
         int i = stmt.executeUpdate(sql);
         return i;
@@ -79,20 +83,25 @@ public class NoteService {
         return i;
     }
 
-    public List<Note> all() throws SQLException {
+    public List<Note> all(String userId,String groupId) throws SQLException {
         Connection conn = DB.getConnection();
         Statement stmt = conn.createStatement();
 
-        String sql = " select * from note";
+        String sql = "";
+        sql = " select * from note where user_id='%s' and group_id = '%s'";
+        sql = String.format(sql,userId,groupId);
 
         List<Note> notes = new ArrayList<>();
         ResultSet resultSet = stmt.executeQuery(sql);
         while (resultSet.next()){
-            String id = resultSet.getString("id");
-            String title = resultSet.getString("title");
-            String content = resultSet.getString("content");
-            Integer favor = resultSet.getInt("favor");
-            notes.add(new Note(id,title,content,favor));
+            Note note = new Note();
+            note.setId(resultSet.getString("id"));
+            note.setTitle(resultSet.getString("title"));
+            note.setContent(resultSet.getString("content"));
+            note.setFavor(resultSet.getInt("favor"));
+            note.setGroupId(resultSet.getString("group_id"));
+            note.setUserId(resultSet.getString("user_id"));
+            notes.add(note);
 
         }
         return notes;

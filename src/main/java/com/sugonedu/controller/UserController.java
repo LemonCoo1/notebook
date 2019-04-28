@@ -7,7 +7,9 @@ import com.blade.mvc.http.Request;
 import com.blade.mvc.http.Response;
 import com.blade.mvc.http.Session;
 import com.sugonedu.model.Note;
+import com.sugonedu.model.NoteGroup;
 import com.sugonedu.model.SysUser;
+import com.sugonedu.service.NoteGroupService;
 import com.sugonedu.service.NoteService;
 import com.sugonedu.service.UserService;
 
@@ -25,6 +27,9 @@ public class UserController {
 
     @Inject
     NoteService noteService;
+
+    @Inject
+    private NoteGroupService noteGroupService;
 
     /**
      * 首页跳转
@@ -49,6 +54,7 @@ public class UserController {
         try {
             sysUser = userService.login(sysUser);
         } catch (SQLException e) {
+            e.printStackTrace();
             response.html("<alert>登录失败</alert>");
             response.redirect("/");
             return;
@@ -62,14 +68,23 @@ public class UserController {
         response.redirect("/noteAll");
     }
     @Route("/noteAll")
-    public String noteAll(Request request){
+    public String noteAll(Request request,@Param String groupId){
+        SysUser user = request.session().attribute("user");
         try {
-            List<Note> all = noteService.all();
+            List<NoteGroup> groupList = noteGroupService.all(user.getId());
+            for(NoteGroup noteGroup: groupList){
+                if(noteGroup.getId().equals(groupId)){
+                    noteGroup.setSelected(true);
+                }
+            }
+            request.attribute("noteGroup",groupList);
+            List<Note> all = noteService.all(user.getId(),groupId);
             request.attribute("notes",all);
+            request.attribute("groupId",groupId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "note_favor.html";
+        return  "note_favor.html";
     }
 
     @Route("/note/id")
@@ -85,20 +100,28 @@ public class UserController {
     }
 
     @Route("/noteAdd")
-    public String noteAdd(){
+    public String noteAdd(Request request){
+        SysUser user = request.session().attribute("user");
+        List<NoteGroup> groupList = null;
+        try {
+            groupList = noteGroupService.all(user.getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        request.attribute("noteGroup",groupList);
         return "note_add.html";
     }
 
     @Route("/noteSave")
     @JSON
-    public Map<String,Object> noteSave(@Param() String id,@Param String title,@Param String content){
-
+    public Map<String,Object> noteSave(Request request ,@Param() String id,@Param String title,@Param String content,@Param String groupId){
+        SysUser user = request.session().attribute("user");
         Note note = new Note();
-        if(!(null == id || "".equals(id))){
-            note.setId(UUID.randomUUID().toString());
-        }
+        note.setId(id);
         note.setTitle(title);
         note.setContent(content);
+        note.setGroupId(groupId);
+        note.setUserId(user.getId());
         int i = 0;
         try {
             i = noteService.saveNote(note);
@@ -147,6 +170,39 @@ public class UserController {
             e.printStackTrace();
             response.html("<alert>注册失败</alert>");
         }
+    }
+
+    @Route("/addGroup")
+    public Map<String, Object> addGroup(@Param String name,Request request){
+        Map map = new HashMap();
+        try {
+            SysUser user = request.session().attribute("user");
+            NoteGroup noteGroup = new NoteGroup();
+            noteGroup.setId(UUID.randomUUID().toString());
+            noteGroup.setName(name);
+            noteGroup.setUserId(user.getId());
+            int i = 0;
+            i = noteGroupService.saveNoteGroup(noteGroup);
+
+            map.put("success",i>0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    @Route("/deleteGroup")
+    public Map<String, Object> deleteGroup(@Param String groupId,Request request){
+        Map map = new HashMap();
+        try {
+            SysUser user = request.session().attribute("user");
+            int i = 0;
+            i = noteGroupService.deleteGroup(user.getId(),groupId);
+            map.put("success",i>0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 
 }

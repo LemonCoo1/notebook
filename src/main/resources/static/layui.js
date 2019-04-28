@@ -137,7 +137,7 @@ function Next(){
 } 
 var name_0='one';
 var links_len,iIntervalId;
-onload=function(){
+/*onload=function(){
 	var links = document.getElementById("tab1").getElementsByTagName('li')
 	links_len=links.length;
 	for(var i=0; i<links_len; i++){
@@ -156,5 +156,5 @@ onload=function(){
 	}
 	setTab(name_0,cursel_0);
 	iIntervalId = setInterval(Next,ScrollTime);
-}
+}*/
 //遮罩和弹出登陆框end
